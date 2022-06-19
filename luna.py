@@ -16,10 +16,6 @@ import warnings
 import platform
 from art import *
 
-"""Truc a faire :
-- Modifié la TimeZone"""
-
-
 warnings.filterwarnings("ignore")
 
 class Color:
@@ -81,7 +77,7 @@ def Clears():
         os.system("cls")
         
 ready = True
-# verification de la connextion
+# verification de la connexion
 def is_internet():
     try:
         urlopen('https://www.google.com', timeout=1)
@@ -306,7 +302,7 @@ def speech():
 
         if is_internet():
             import datetime
-            # try:
+
             elocution = r.recognize_google(audio,language='fr-FR')
             elocution=elocution.lower()
 
@@ -420,7 +416,7 @@ def speech():
                 cur.execute("SELECT * FROM journal")
                 for item in cur:
                     mot_clef = item[0]
-                    mot_clef = mot_clef.split('/')libération
+                    mot_clef = mot_clef.split('/')
                     state = 0
                     for mot in mot_clef:
                         if mot in elocution and state == 0:
