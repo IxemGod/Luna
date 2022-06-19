@@ -93,7 +93,7 @@ def is_internet():
         return False
 
 
-# Menu de configuration s
+# Menu de configuration
 def modeConfig():
 
     def banner():
@@ -166,11 +166,7 @@ def modeConfig():
             #Racourciceur d'url
             if "spotify" in item[1]:
                 link = "Spotify"
-                # link = item[1]+"s"
-                # link = link[31:53]
             elif "youtube" in item[1]:
-                # link = item[1]+"s"
-                # link = link[32:-1]
                 link = "Youtube"
             elif "deezer" in item[1]:
                 link = "Deezer"
@@ -215,12 +211,72 @@ def modeConfig():
         else:
             banner()
 
+    def JT():
+        banner()
+        print(Color.red_bold+"  Extraction et construction du tableau des journaux depuis la base de donnée...\n")
+        print(Color.white_bold+"""          Mot-clef"""+" "*5+Color.orange_bold+"|"+Color.white_bold+" Liens   "+Color.orange_bold+"|"+Color.white_bold+""" Titre"""+" "*25+Color.orange_bold+"|"+Color.white_bold+"ID"+Color.yellow_bold+"\n         "+"#"*63)
+        
+
+        con = sqlite3.connect('musiqueDb.db')
+        cur = con.cursor()
+        cur.execute("SELECT * FROM journal")
+        
+        for item in cur:
+            Espace_MotClef = 14 - len(item[0])
+            link  = "Autre"
+
+            #Racourciceur d'url
+            if "spotify" in item[1]:
+                link = "Spotify"
+            elif "youtube" in item[1]:
+                link = "Youtube"
+            elif "deezer" in item[1]:
+                link = "Deezer"
+
+            Espace_link = 7 - len(link)
+            Espace_Tittle = 30 - len(item[2])
+            Espace_Id = 4 - len(item[3])
+            print(Color.blue_bold+f"         {item[0]}"+" "*Espace_MotClef+Color.yellow_bold+"|"+Color.blue_bold+f" {link} "+" "*Espace_link+Color.yellow_bold+"|"+Color.blue_bold+f" {item[2]}"+" "*Espace_Tittle+Color.yellow_bold+"|"+Color.blue_bold+f" {item[3]}"+" "*Espace_Id)
+            print("         "+Color.yellow_bold+"-"*63)
+
+        print(Color.red_bold+"                 [1] "+Color.white_bold+"""Ajouter un Journal"""+Color.red_bold+"           [2] "+Color.white_bold+"""Suprimer un Journal
+        """)
+
+
+        choix = input(Color.cyan_bold+"\n         [?]"+Color.white_bold+"Choisisez un nombre. "+Color.blue_bold)
+
+        if choix == 1 or choix == "1":
+            motClef = input(Color.cyan_bold+"\n         [?]"+Color.white_bold+"Saisissez des mot-clef. Chaque mot doit être séprarer d'une virgule. "+Color.blue_bold)
+            print('')
+            url = input(Color.cyan_bold+"\n         [?]"+Color.white_bold+"Saisissez le liens vers le journal. "+Color.blue_bold)
+            print('')
+            title = input(Color.cyan_bold+"\n         [?]"+Color.white_bold+"Saisissez le titre du journal. "+Color.blue_bold)
+            Id = random.randint(10000,99999)
+
+            cur.execute("INSERT INTO journal values(?,?,?,?)",(motClef,url,title,Id))
+            con.commit()
+            con.close()
+            print("\n"+Color.purple_bold+"          [output] "+Color.white_bold+'Votre journal à été ajouter !')
+            fin = input("")
+            banner()
+        elif choix == 2 or choix == "2":
+            con = sqlite3.connect('musiqueDb.db')
+            cur = con.cursor()
+            Id = input(Color.cyan_bold+"\n         [?]"+Color.white_bold+" Tapez l'Id du journal que vous souhaitez suprimé. "+Color.blue_bold)
+            cur.execute('DELETE FROM journal WHERE id = ?',(Id,))
+            con.commit()
+            print("\n"+Color.purple_bold+"          [output] "+Color.white_bold+f'La musique portant l\'id {Id} à été correctement effacer')
+            fin = input("")
+            banner()
+        else:
+            banner()
+    
     print(Color.grey_bold)
     while True:
         banner()
         print(Color.red_bold+"      [1]"+Color.white_bold+""" Modifié votre nom   """+Color.red_bold+"     [2]"+Color.white_bold+""" Modifié votre date d'anniverssaire
       """+Color.red_bold+"[3]"+Color.white_bold+ " Configuration Musique"+Color.red_bold+ "    [4]"+Color.white_bold+""" Modification GPS
-      """+Color.red_bold+"[5]"+Color.white_bold+ " Modification du genre")
+      """+Color.red_bold+"[5]"+Color.white_bold+ " Modification du genre"+Color.red_bold+ "    [6]"+Color.white_bold+""" Configuration Journal""")
         elocution = input(Color.cyan_bold+"\n         [?]"+Color.white_bold+'Que voulez vous faire ? '+Color.blue_bold)
         if elocution == 1 or elocution == "1":
             username()
@@ -232,6 +288,8 @@ def modeConfig():
             GPS()
         elif elocution == 5 or elocution == "5":
             GENRE()
+        elif elocution == 6 or elocution == "6":
+            JT()
         else:
             banner()
             Clears()
@@ -305,6 +363,7 @@ def speech():
                                     année = année + 1
                         vocal.say(f"Je suis née le 8 janvier 2021. J'ai donc {année} ans et {jours} jours")
                         vocal.runAndWait()
+                
                 elif ('va' in elocution and 'tu' in elocution) or ('va' in elocution and 'ça' in elocution):
                     vocal.say(f"A merveille {username}")
                     vocal.runAndWait()
@@ -355,42 +414,13 @@ def speech():
                     vocal.runAndWait()
                 elif ('jour' in elocution or 'date' in elocution or 'année' in elocution or 'combien' in elocution):
                     date = datetime.datetime.now()
-                    annive = False
-                    if date.month == 1:
-                        mois = 'Janvier'
-                    if date.month == 2:
-                        mois = 'Février'
-                    if date.month == 3:
-                        mois = 'Mars'
+                    CoresMoi ={1:"Janver",2:"Février",3:"Mars",4:"Avril",5:"Mai",6:"Juin",7:"Juillet",8:"Août",9:"Septembre",10:"Octobre",11:"Novembre",12:"Décembre"}
+                    mois = CoresMoi[date.month]
 
-                    if date.month == 4:
-                        mois = 'Avril'
-
-                    if date.month == 5:
-                        mois = 'Mai'
-
-                    if date.month == 6:
-                        mois = 'Juin'
-
-                    if date.month == 7:
-                        mois = 'Juillet'
-
-                    if date.month == 8:
-                        mois = 'Août'
-                        if date.day == 1:
-                            annive = True
-
-                    if date.month == 9:
-                        mois = 'Septembre'
-
-                    if date.month == 10:
-                        mois = 'Octobre'
-
-                    if date.month == 11:
-                        mois = 'Novembre'
-
-                    if date.month == 12:
-                        mois = 'Décembre'
+                    if date.day == 1 and date.month == 8:
+                        annive = True
+                    else:
+                        annive = False
 
                     jour = date.day
                     if date.day == 1:
@@ -399,13 +429,9 @@ def speech():
                     vocal.say(f'Nous somme le {jour} {mois} {date.year}')
                     vocal.runAndWait()
 
-                    if annive == True:
+                    if annive:
                         vocal.say(f'Aujourd’hui c\'est l\'aniversaire de mon créateur ! Bonne annive Iccem !')
                         vocal.runAndWait()
-
-            
-
-
 
 
             #Commande
@@ -433,70 +459,25 @@ def speech():
                 vocal.runAndWait()
 
                 
-            elif ('actu' in elocution):
-
-                if 'ouest'in elocution and 'france' in elocution:
-                    vocal.say('Je lance le Ouest France sur internet')
+            elif ('actu' in elocution or "journal" in elocution):
+                con = sqlite3.connect('musiqueDb.db')
+                cur = con.cursor()
+                cur.execute("SELECT * FROM journal")
+                for item in cur:
+                    mot_clef = item[0]
+                    mot_clef = mot_clef.split('/')libération
+                    state = 0
+                    for mot in mot_clef:
+                        if mot in elocution and state == 0:
+                            webbrowser.open(item[1])
+                            vocal.say("Lancement du journal")
+                            vocal.runAndWait()
+                            state = 1
+                            
+                if state == 0:
+                    vocal.say("Journal non présente dans la base de donnée")
                     vocal.runAndWait()
-                    webbrowser.open_new('https://www.ouest-france.fr')
-                elif 'parisien'in elocution:
-                    vocal.say('Je lance le Parisien sur internet')
-                    vocal.runAndWait()
-                    webbrowser.open_new('https://www.leparisien.fr')
-                elif 'monde'in elocution:
-                    vocal.say('Je lance le monde sur internet')
-                    vocal.runAndWait()
-                    webbrowser.open_new('https://www.lemonde.fr')
-                elif 'figaro'in elocution:
-                    vocal.say('Je lance le figaro sur internet')
-                    vocal.runAndWait()
-                    webbrowser.open_new('https://www.lefigaro.fr')
-                elif 'gorafi'in elocution:
-                    vocal.say('Je lance le gorafi sur internet')
-                    vocal.runAndWait()
-                    webbrowser.open_new('http://www.legorafi.fr')
-                elif 'liberation'in elocution:
-                    vocal.say('Je lance liberation sur internet')
-                    vocal.runAndWait()
-                    webbrowser.open_new('https://www.liberation.fr')
-                elif 'mediapart'in elocution:
-                    vocal.say('Je lance médiapart sur internet')
-                    vocal.runAndWait()
-                    webbrowser.open_new('https://www.mediapart.fr')
-                elif 'point'in elocution:
-                    vocal.say('Je lance le point sur internet')
-                    vocal.runAndWait()
-                    webbrowser.open_new('https://www.lepoint.fr')
-                elif 'obs'in elocution:
-                    vocal.say('Je lance l\'OBS sur internet')
-                    vocal.runAndWait()
-                    webbrowser.open_new('https://www.nouvelobs.com')
-                elif 'france 24'in elocution:
-                    vocal.say('Je lance france24 sur internet')
-                    vocal.runAndWait()
-                    webbrowser.open_new('https://www.france24.com/fr/france/')
-                elif 'opignon'in elocution:
-                    vocal.say('Je lance l\'opignon sur internet')
-                    vocal.runAndWait()
-                    webbrowser.open_new('https://www.lopinion.fr')
-                elif 'echo'in elocution:
-                    vocal.say('Je lance les échos sur internet')
-                    vocal.runAndWait()
-                    webbrowser.open_new('https://www.lesechos.fr')
-                elif 'croix'in elocution:
-                    vocal.say('Je lance la croix sur internet')
-                    vocal.runAndWait()
-                    webbrowser.open_new('https://www.la-croix.com')
-                elif 'humanité'in elocution:
-                    vocal.say('Je lance l\'humanité sur internet')
-                    vocal.runAndWait()
-                    webbrowser.open_new('https://www.humanite.fr')
-                elif 'équipe'in elocution:
-                    vocal.say('Je lance l\'humanité sur internet')
-                    vocal.runAndWait()
-                    webbrowser.open_new('https://www.lequipe.fr')
-            
-            
+                
             
             elif ('joue' in elocution or 'met' in elocution or "lance" in elocution):
                
@@ -530,6 +511,7 @@ def speech():
                 resultat = random.randint(listeNombre[0],listeNombre[1])
                 vocal.say(f"Le résultat est : {resultat}")
                 vocal.runAndWait()
+            
             elif ('raconte' in elocution or 'fait' in elocution) and 'blague' in elocution:
                 vocal.say("D'accore, je vais vous faire une blague")
                 vocal.runAndWait()
@@ -555,6 +537,7 @@ def speech():
                     for a in range(len(listeRecherche)):
                         recherche = recherche + ' ' + listeRecherche[a]
                 webbrowser.open_new(f'https://www.google.com/search?q={recherche}')
+           
             elif ('quel' in elocution or 'montre' in elocution or 'dis' in elocution) and 'météo' in elocution:
                 key = '198fc752bfe61462867c976ed4658a0a'
                 # key=None
