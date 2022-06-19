@@ -16,6 +16,7 @@ import warnings
 import platform
 from art import *
 
+lol = "mdr"
 
 """Truc a faire :
 - Enregistrer dans la DB le journal
