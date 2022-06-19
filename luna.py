@@ -17,8 +17,6 @@ import platform
 from art import *
 
 """Truc a faire :
-- Enregistrer dans la DB le journal
-- Revoir les questions personnel
 - Modifié la TimeZone"""
 
 
@@ -330,19 +328,10 @@ def speech():
                     date = datetime.datetime.now()
                     vocal.say(f"Il est actuellement {str(date.hour)} heure {str(date.minute)}")
                     vocal.runAndWait()                    
-                elif 'crée' in elocution: 
-                    vocal.say("J'ai été crée pour vous rendre service. Et je suis fière de le faire.")
-                    vocal.runAndWait()
                 elif 'créateur' in elocution:
-                    vocal.say('Mon créateur est Icem45. C\'est un humain sur intéligent qui baise tout le monde et même ta darone')
+                    vocal.say('Mon créateur est IxemGod et il est très intéligent !')
                     vocal.runAndWait()
-                elif 'film' in elocution:
-                    vocal.say("Mon film préférer est, Your Neyme, fait par Makoto Shinkai")
-                    vocal.runAndWait()
-                elif 'livre' in elocution:
-                    vocal.say("Mon livre préférer est Harry Potteur et l'ordre du Phénix, écrit par J K Rowling")
-                    vocal.runAndWait()
-                   
+            
                 elif 'âge' in elocution:
                         timestamp = int(time.time())
                         dateDeCréa = 1610060400
@@ -366,30 +355,7 @@ def speech():
                 elif ('va' in elocution and 'tu' in elocution) or ('va' in elocution and 'ça' in elocution):
                     vocal.say(f"A merveille {username}")
                     vocal.runAndWait()
-                elif ('plat' in elocution or 'repas' in elocution):
-                    vocal.say("J'adore les pâtes boloniaise. J'aime aussi le chêvre, le jus de pomme et le boeuf.")
-                    vocal.runAndWait()
-                elif ('couleur' in elocution or 'teinte' in elocution):
-                    vocal.say("J'adore le jaune. Quoi de plus beau sur Terre ?")
-                    vocal.runAndWait()
-                elif ('style' in elocution or 'musique' in elocution or 'groupe' in elocution or 'rapeur' in elocution or 'chanteur' in elocution):
-                    vocal.say("J'aime le rap, l'electro. J'adore 47ter et Alain Walkeur. Mon rap préférer est \"L'adresse\" de 47ter et \"Monsteur\" de Lumnix. J'aime aussi écouter de la musique Japonaise comme Yemoutourou et sud corréain comme BTS")
-                    vocal.runAndWait()
-                elif'jeu' in elocution:
-                    vocal.say("Mes Jeux préférer sont Assassin's Creed II et Mine craft.")
-                    vocal.runAndWait()
-                elif 'animal' in elocution or 'animaux' in elocution:
-                    vocal.say("Mon animal préférer est le chat, vu que je suis un chaton.")
-                    vocal.runAndWait()
-                elif 'couleur' in elocution or 'teinte' in elocution:
-                    vocal.say("J'adore le jaune. Quoi de plus beau sur Terre ?")
-                    vocal.runAndWait()
-                elif 'passe temps' in elocution or 'passion' in elocution:
-                    vocal.say("Mon passe temps favori est le développement. C'est d'ailleur de cette passion que je suis née pour vous servir")
-                    vocal.runAndWait()
-                elif 'sport' in elocution or 'activiter' in elocution:
-                    vocal.say("Mes sport préféré sont le Ténis de Table et le Rolleur")
-                    vocal.runAndWait()
+        
                 elif 'appel' in elocution or 'ton nom' in elocution:
                     vocal.say(f"Je m'appelle Luna. En référence à Luna Lovegood dans Harry Potter")
                     vocal.runAndWait()
@@ -399,18 +365,8 @@ def speech():
                 elif ('slogan' in elocution or 'devise' in elocution or 'dicton' in elocution or 'proverbe' in elocution or 'blason' in elocution):
                     vocal.say('Ma phrase préférer c\'est Draco dormiens nunquam titillandus. En français cela veux dire "Il ne faut jamais chatouiller un dragon qui dort"')
                     vocal.runAndWait()
-                elif 'ami' in elocution:
-                    vocal.say('Je n\'est pas d\'ami. Je sui destiner à être seul')
-                    vocal.runAndWait()
-                elif 'crush' in elocution or 'amoureu' in elocution or 'go' in elocution or ('mec' in elocution and 'un' in elocution) or ('meuf' in elocution and 'une' in elocution) or ('couple' in elocution):
-                    vocal.say('Je suis actuellement célibataire, mais je suis en crush sur Google Home.')
-                    vocal.runAndWait()
-                elif 'numéro' in elocution or '06' in elocution:
-                    vocal.say('Je ne poscède pas de numéro de téléphone...')
-                    vocal.runAndWait()
-                elif 'chanteuse' in elocution:
-                    vocal.say('C\'est Wejdene bien évidament ! Elle chante trop bien. J\'adore Annisa !')
-                    vocal.runAndWait()
+
+
                 elif ('jour' in elocution or 'date' in elocution or 'année' in elocution or 'combien' in elocution):
                     date = datetime.datetime.now()
                     CoresMoi ={1:"Janver",2:"Février",3:"Mars",4:"Avril",5:"Mai",6:"Juin",7:"Juillet",8:"Août",9:"Septembre",10:"Octobre",11:"Novembre",12:"Décembre"}
@@ -594,9 +550,6 @@ def speech():
             
 
             #Divers :
-            elif ('nique' in elocution or 'suce' in elocution or 'baise' in elocution or 'encule' in elocution) and ('mère' in elocution or 'maman' in elocution or 'père' in elocution or 'frère' in elocution or 'sœur' in elocution or 'chat' in elocution or 'chien' in elocution or 'rat' in elocution):
-                vocal.say('On n\'avais dit pas la famille.')
-                vocal.runAndWait()
             elif 'elon' in elocution or 'musk' in elocution:
                 vocal.say('Je connais très bien Elon Musk. J\'était au lycée avec lui quand j\'était jeune.')
                 vocal.runAndWait()
@@ -612,11 +565,8 @@ def speech():
             elif 'je' in elocution and 'suis' in elocution and 'ton' in elocution and 'père' in elocution:
                 vocal.say('Désoler mais je ne suis pas luc')
                 vocal.runAndWait()        
-            elif 'corona' in elocution or 'covit' in elocution and 'pandémie' in elocution:
-                vocal.say('Je suis née durant la pendémi du corona virus de 2019 à 2021')
-                vocal.runAndWait()
             
-            elif 'salut' in elocution or 'bonjour' in elocution or 'coucou' in elocution or 'io' in elocution: 
+            elif 'salut' in elocution or 'bonjour' in elocution or 'coucou' in elocution: 
                     vocal.say(f"Bonjour {username}, comment allez-vous? ")
                     vocal.runAndWait()
             elif 'stop' in elocution or 'ferme-la' in elocution or ('ta' in elocution and ' gueule' in elocution):
